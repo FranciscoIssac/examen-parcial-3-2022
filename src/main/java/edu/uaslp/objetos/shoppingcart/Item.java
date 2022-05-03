@@ -45,7 +45,9 @@ public class Item {
     }
 
     public void setQuantity(int i) {
-        this.i = i;
+        if (i <= 5) {
+            this.i = i;
+        }
     }
 
     public String getProviderCode() {

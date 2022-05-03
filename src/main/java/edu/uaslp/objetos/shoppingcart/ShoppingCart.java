@@ -10,11 +10,16 @@ public class ShoppingCart {
     private final List<Item> items =  new ArrayList<>();
 
     public boolean isEmpty() {
+        Iterator<Item> iterator = items.iterator();
+        return !iterator.hasNext();
     }
 
     public BigDecimal getTotalCost() {
-        BigDecimal totalCost = BigDecimal.ZERO;
+        if(items.isEmpty()) {
+            throw new EmptyShoppingCartException;
+        }
 
+        BigDecimal totalCost = BigDecimal.ZERO;
         for(Item item: items){
             totalCost = totalCost.add(item.getUnitCost().multiply(BigDecimal.valueOf(item.getQuantity())));
         }
@@ -38,5 +43,13 @@ public class ShoppingCart {
     }
 
     public void removeItem(String itemCode2) {
+        Item itemToRemove = null;
+        assert false;
+        itemToRemove.setUnitCost(BigDecimal.valueOf(0));
+        for (Item item : items) {
+            if(item.getCode().equals(itemCode2) && item.getUnitCost().compareTo(itemToRemove.getUnitCost()) >= 0) {
+                itemToRemove = item;
+            }
+        }
     }
 }

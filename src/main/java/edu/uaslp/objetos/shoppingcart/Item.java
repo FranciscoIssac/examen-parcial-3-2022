@@ -1,6 +1,7 @@
 package edu.uaslp.objetos.shoppingcart;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Item {
     private String itemCode;
@@ -24,7 +25,9 @@ public class Item {
     }
 
     public void setCode(String itemCode) {
-        this.itemCode = itemCode;
+        if(!Objects.equals(itemCode, "")) {
+            this.itemCode = itemCode;
+        }
     }
 
     public BigDecimal getUnitCost() {
@@ -32,7 +35,9 @@ public class Item {
     }
 
     public void setUnitCost(BigDecimal unitCost) {
-        this.unitCost = unitCost;
+        if(unitCost.compareTo(BigDecimal.valueOf(0)) >= 0) {
+            this.unitCost = unitCost;
+        }
     }
 
     public int getQuantity() {
@@ -48,6 +53,8 @@ public class Item {
     }
 
     public void setProviderCode(String providerCode) {
-        this.providerCode = providerCode;
+        if(!Objects.equals(providerCode, "")) {
+            this.providerCode = providerCode;
+        }
     }
 }

@@ -1,4 +1,4 @@
 package edu.uaslp.objetos.shoppingcart;
 
-public class ItemNotFoundException {
+public class ItemNotFoundException extends RuntimeException{
 }

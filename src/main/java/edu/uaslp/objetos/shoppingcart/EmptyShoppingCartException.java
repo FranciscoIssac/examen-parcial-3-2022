@@ -1,4 +1,4 @@
 package edu.uaslp.objetos.shoppingcart;
 
-public class EmptyShoppingCartException {
+public class EmptyShoppingCartException extends RuntimeException {
 }

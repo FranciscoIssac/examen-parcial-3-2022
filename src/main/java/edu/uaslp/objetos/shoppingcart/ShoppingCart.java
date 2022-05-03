@@ -16,7 +16,7 @@ public class ShoppingCart {
 
     public BigDecimal getTotalCost() {
         if(items.isEmpty()) {
-            throw new EmptyShoppingCartException;
+            throw new EmptyShoppingCartException();
         }
 
         BigDecimal totalCost = BigDecimal.ZERO;
@@ -28,18 +28,30 @@ public class ShoppingCart {
     }
 
     public void addItem(Item newItem) {
+        if(newItem.getCode() == null) {
+            throw new InvalidDataException();
+        }
+
         for (Item item : items) {
             if(item.getCode().equals(newItem.getCode()) && item.getUnitCost().equals(newItem.getUnitCost())) {
                 item.setQuantity(item.getQuantity() + 1);
+                break;
             }
         }
         items.add(newItem);
     }
 
-    public boolean getItemsCount() {
+    public int getItemsCount() {
+        int count = 0;
+        for (Item item : items) {
+            count++;
+        }
+
+        return count;
     }
 
     public List<Item> getItems() {
+        return new ArrayList<>();
     }
 
     public void removeItem(String itemCode2) {

@@ -1,10 +1,7 @@
 package edu.uaslp.objetos.shoppingcart;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.OptionalDouble;
+import java.util.*;
 
 public class ShoppingCart {
     private final List<Item> items =  new ArrayList<>();
@@ -29,39 +26,57 @@ public class ShoppingCart {
 
     public void addItem(Item newItem) {
         if(newItem.getCode() == null) {
-            throw new InvalidDataException();
+            throw new InvalidDataException("Null or empty string not allowed for item code");
         }
+        if(Objects.equals(newItem.getProviderCode(), "")) {
+            throw new InvalidDataException("Null or empty string not allowed for provider code");
+        }
+        if(newItem.getUnitCost().compareTo(BigDecimal.valueOf(0)) <= 0) {
+            throw new InvalidDataException("Cost must be greater than zero");
+        }
+        if(newItem.getQuantity() > 5) {
+            throw new InvalidDataException("Quantity must be greater than zero and lower than 5");
+        }
+
+        boolean flag = true;
 
         for (Item item : items) {
             if(item.getCode().equals(newItem.getCode()) && item.getUnitCost().equals(newItem.getUnitCost())) {
-                item.setQuantity(item.getQuantity() + 1);
-                break;
+                item.setQuantity(item.getQuantity() + newItem.getQuantity());
+                flag = false;
             }
         }
-        items.add(newItem);
+        if(flag) {
+            items.add(newItem);
+        }
     }
 
     public int getItemsCount() {
         int count = 0;
         for (Item item : items) {
-            count++;
+            count = count + item.getQuantity();
         }
 
         return count;
     }
 
     public List<Item> getItems() {
-        return new ArrayList<>();
+
+        return items;
     }
 
-    public void removeItem(String itemCode2) {
-        Item itemToRemove = null;
-        assert false;
+    public void removeItem(String itemCode) {
+        Item itemToRemove = new Item();
         itemToRemove.setUnitCost(BigDecimal.valueOf(0));
         for (Item item : items) {
-            if(item.getCode().equals(itemCode2) && item.getUnitCost().compareTo(itemToRemove.getUnitCost()) >= 0) {
+            if (item.getCode().equals(itemCode) && item.getUnitCost().compareTo(itemToRemove.getUnitCost()) >= 0) {
                 itemToRemove = item;
             }
+        }
+        if (itemToRemove.getQuantity() > 1) {
+            itemToRemove.setQuantity(itemToRemove.getQuantity() - 1);
+        } else {
+            items.remove(itemToRemove);
         }
     }
 }
